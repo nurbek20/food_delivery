@@ -15,7 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from core.views import base, product, addCart, cart, removeCart, about, search
+from django.conf import settings
+from django.conf.urls.static import static
+from food_delivery.settings import STATIC_ROOT, STATIC_URL, MEDIA_URL, MEDIA_ROOT
+# from django.contrib.auth.models import User
 urlpatterns = [
+    path('', base, name='base'),
+    path('product/<int:id>', product, name='product'),
+    path('addCart/<int:pk>', addCart, name='addCart'),
+    path('cart', cart, name='cart'),
+    path('removeCart/<int:id>', removeCart, name='removeCart'),
+    path('about', about, name='about'),
+    path('search', search, name='search'),
     path('admin/', admin.site.urls),
 ]
+urlpatterns += static(STATIC_URL, document_root=STATIC_ROOT)  
+urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)
