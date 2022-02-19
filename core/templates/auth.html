@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %} Войти/Регистрация {% endblock %}
+{% block content %}
+<div style="display: flex; justify-content: start; align-items: center; width: 430px; align-self: cenetr !important;"  class="container mt-5">
+<form style="display: flex; flex-direction: column; text-align: center;" method="POST">
+    {% csrf_token %}
+
+    {{ user.as_p }}
+<button type="submit">Сахранить</button>
+</form>
+</div
+{% endblock %}
