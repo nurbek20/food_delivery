@@ -1,7 +1,8 @@
 from django.shortcuts import redirect, render, HttpResponseRedirect
-from core.models import FoodCard, Category, ProductsCart
+from core.models import FoodCard, Category, ProductsCart #, Customer
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm 
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm 
+from django.contrib.auth import login, authenticate, logout
 # Create your views here.
 def base(request):
     categories = Category.objects.all()
@@ -76,3 +77,24 @@ def signup(request):
         user =  UserCreationForm() 
 
     return render(request, 'auth.html', {'user' :user})
+
+def signin(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('base')
+    else:
+        form = AuthenticationForm()
+    
+    return render(request, 'auth.html', {'user' :form})
+
+def signout(request):
+    logout(request)
+    return redirect('base')
+
+def order(request):
+    return render(request, '')

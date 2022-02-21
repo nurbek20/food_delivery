@@ -27,3 +27,20 @@ class ProductsCart(models.Model):
     class Meta:
         verbose_name_plural = "Product's cart"
         verbose_name = "Product's carts"
+
+class Customer(models.Model):
+    name = models.CharField(max_length=50, verbose_name='Имя')
+    last_name = models.CharField(max_length=50, verbose_name='Фамилия')
+    number = models.CharField(max_length=50, verbose_name='Телефон Номер')
+    address = models.CharField(max_length=255, verbose_name='Адрес')
+    massage = models.TextField(verbose_name='Сообщения')
+
+
+class Order(models.Model):
+    product = models.ForeignKey(FoodCard, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    price = models.IntegerField()
+    phone = models.IntegerField()
+    address = models.CharField(max_length=100)
+    date = models.DateTimeField(auto_now_add=True)
