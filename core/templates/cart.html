@@ -3,7 +3,8 @@
 {% block title %} Basket {% endblock %}
 
 {% block content %}
-<section class="pt-5 pb-5">
+    <section class="pt-5 pb-5">
+ 
     <style>
         section {
             background-color: rgb(219, 214, 214);
@@ -76,56 +77,77 @@
                 <!-- <a href="" class="btn btn-primary mb-4 btn-lg pl-5 pr-5">Оформит заказ</a> -->
                 <!-- Button trigger modal -->
                 <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Оформить заказы
+                    Оформить заказ
                 </a>
             </div>
+
+
+            {% if messages %}
+            {% for message in messages %} 
+            <div class="alert alert-{{message.extra_tags}} d-flex align-items-center" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                    <use xlink:href="#check-circle-fill" />
+                </svg>
+                <div>
+                    {{message}}
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+            
+            
             <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
                 <a href="/#products">
                     <i class="fas fa-arrow-left mr-2"></i> Продолжить покупки</a>
-            </div>
-        </div>
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="{% url 'order' %}" method="POST">
-                            {% csrf_token %}
-                            <div class="mb-3">
-                                <label for="recipient-name" class="col-form-label">Введите Имя:</label>
-                                <input type="text" placeholder="Введите Имя"  name="name" class="form-control" required id="recipient-name">
-                            </div>
-                            <div class="mb-3">
-                                <label for="recipient-name" class="col-form-label">Введите Фамилия:</label>
-                                <input type="text" placeholder="Введите Фамилия" name="l_name" class="form-control" required id="recipient-name">
-                            </div>
-                            <div class="mb-3">
-                                <label for="recipient-name" class="col-form-label">Введите номер:</label>
-                                <input type="text" class="form-control"  name="number" placeholder="Введите номер" required id="recipient-name">
-                            </div>
-                            <div class="mb-3">
-                                <label for="recipient-name" class="col-form-label">Введите Адрес:</label>
-                                <input type="text" class="form-control" name="addres" placeholder="Введите Адрес" required id="recipient-name">
-                            </div>
-                            <div class="mb-3">
-                                <label for="message-text" class="col-form-label">Сообщения:</label>
-                                <textarea class="form-control" name="message" placeholder="Сообщения" id="message-text"></textarea>
-                            </div>
-                        </form>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                        <button type="button" class="btn btn-primary">Отправить</button>
-                    </div>
                 </div>
             </div>
         </div>
+    </section>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'order' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Введите Имя:</label>
+                        <input type="text" placeholder="Введите Имя" name="name" class="form-control" required
+                            id="recipient-name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Введите Фамилия:</label>
+                        <input type="text" placeholder="Введите Фамилия" name="l_name" class="form-control" required
+                            id="recipient-name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Введите номер:</label>
+                        <input type="text" class="form-control" name="number" placeholder="Введите номер" required
+                            id="recipient-name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Введите Адрес:</label>
+                        <input type="text" class="form-control" name="address" placeholder="Введите Адрес" required
+                            id="recipient-name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="message-text" class="col-form-label">Сообщения:</label>
+                        <textarea class="form-control" name="message" placeholder="Сообщения"
+                            id="message-text"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Отправить</button>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
     </div>
-</section>
-
-
+    </div>
 {% endblock %}

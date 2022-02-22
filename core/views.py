@@ -1,8 +1,9 @@
 from django.shortcuts import redirect, render, HttpResponseRedirect
-from core.models import FoodCard, Category, ProductsCart #, Customer
+from core.models import FoodCard, Category, ProductsCart, Customer, Order
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm 
 from django.contrib.auth import login, authenticate, logout
+from django.contrib import messages 
 # Create your views here.
 def base(request):
     categories = Category.objects.all()
@@ -97,4 +98,36 @@ def signout(request):
     return redirect('base')
 
 def order(request):
-    return render(request, '')
+    if request.method == 'POST':
+        cart_session = request.session.get('cart_session', [])
+        if len(cart_session) == 0:
+            messages.error(request, 'Ваша корзина пустая!!!', extra_tags='danger')
+            return redirect('cart')
+        else:
+            customer = Customer()
+            customer.name=request.POST.get('name')
+            customer.last_name=request.POST.get('l_name')
+            customer.number=request.POST.get('number')
+            customer.address=request.POST.get('address')
+            customer.massage=request.POST.get('message')
+            customer.save()
+
+            for i in range(len(cart_session)):
+                order = Order()
+                order.product = FoodCard.objects.get(id=cart_session[i])
+                order.customer = customer
+                order.price = order.product.price
+                order.phone = customer.number
+                order.address = customer.address
+                order.save()
+                request.session['cart_session'] = []
+            messages.error(request, 'Заказ успешно отправлено', extra_tags='success')
+            return redirect('cart')
+
+
+
+        return redirect('cart')
+            
+
+    return redirect('base')
+    
